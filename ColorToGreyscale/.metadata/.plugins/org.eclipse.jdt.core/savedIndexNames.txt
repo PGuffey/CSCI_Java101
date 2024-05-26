@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+C:\Users\guffe\eclipse-workspace\ColorToGreyscale\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+1914796809.index
+2448762908.index

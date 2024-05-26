@@ -1,0 +1,79 @@
+package islandPerimeter;
+
+import java.io.*;
+
+public class IslandPerimeter {
+
+    /**
+     * Calculates the perimeter of the island in the given grid.
+     *
+     * @param grid a 2-dimensional array of integers representing the grid of land/water
+     * @return the calculated perimeter of the island
+     */
+    public static int calcPerimeter(int[][] grid) {
+        int perimeter = 0;
+
+        // Iterate through the grid and count the perimeter of each land cell
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 1) {
+                    // Check the top neighbor
+                    if (i == 0 || grid[i - 1][j] == 0) {
+                        perimeter++;
+                    }
+                    // Check the right neighbor
+                    if (j == grid[0].length - 1 || grid[i][j + 1] == 0) {
+                        perimeter++;
+                    }
+                    // Check the bottom neighbor
+                    if (i == grid.length - 1 || grid[i + 1][j] == 0) {
+                        perimeter++;
+                    }
+                    // Check the left neighbor
+                    if (j == 0 || grid[i][j - 1] == 0) {
+                        perimeter++;
+                    }
+                }
+            }
+        }
+
+        return perimeter;
+    }
+
+    public static void main(String[] args) {
+        try {
+            // Read the input file
+            BufferedReader reader = new BufferedReader(new FileReader("island.txt"));
+
+            // Get the dimensions of the grid
+            String[] dimensions = reader.readLine().split(" ");
+            int numRows = Integer.parseInt(dimensions[0]);
+            int numCols = Integer.parseInt(dimensions[1]);
+
+            // Create a 2-dimensional array of integers with the dimensions just read from the input file
+            int[][] grid = new int[numRows][numCols];
+
+            // Read the rest values from the input file and store them in the 2-dimensional array
+            for (int i = 0; i < numRows; i++) {
+                String[] rowValues = reader.readLine().split(" ");
+                for (int j = 0; j < numCols; j++) {
+                    grid[i][j] = Integer.parseInt(rowValues[j]);
+                }
+            }
+
+            // Close the input file reader
+            reader.close();
+
+            // Calculate the perimeter of the island
+            int perimeter = calcPerimeter(grid);
+
+            // Write the calculated perimeter to the output file
+            BufferedWriter writer = new BufferedWriter(new FileWriter("perimeter.txt"));
+            writer.write(Integer.toString(perimeter));
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

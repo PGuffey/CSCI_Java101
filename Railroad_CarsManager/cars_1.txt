@@ -1,0 +1,6 @@
+Box		6	8	8
+Tank		10	2.5
+Refrigerator	3	3	3	27
+Tank		10	4
+Refrigerator	5	3	2	14
+Box		2.5	2.5	100

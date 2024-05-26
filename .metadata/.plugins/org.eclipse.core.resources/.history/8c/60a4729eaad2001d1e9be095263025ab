@@ -1,0 +1,141 @@
+package Railroad_Cars;
+
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+abstract class Railroad_Cars {
+    protected double length;
+
+    public double getLength() {
+        return length;
+    }
+
+    public void setLength(double length) {
+        this.length = length;
+    }
+
+    public abstract double volume();
+}
+
+class TankCar extends Railroad_Cars {
+    private double radius;
+
+    public TankCar() {
+    }
+
+    public TankCar(double length, double radius) {
+        this.length = length;
+        this.radius = radius;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    public double volume() {
+        return Math.PI * Math.pow(radius, 2) * length;
+    }
+}
+
+class BoxCar extends Railroad_Cars {
+    private double width, height;
+
+    public BoxCar() {
+    }
+
+    public BoxCar(double length, double width, double height) {
+        this.length = length;
+        this.width = width;
+        this.height = height;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    @Override
+    public double volume() {
+        return length * width * height;
+    }
+}
+
+class RefrigeratorCar extends BoxCar {
+    private int temperature;
+
+    public RefrigeratorCar() {
+    }
+
+    public RefrigeratorCar(double length, double width, double height, int temperature) {
+        super(length, width, height);
+        this.temperature = temperature;
+    }
+
+    public int getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
+    }
+}
+
+public class Railroad_CarsManager {
+
+    public static void main(String[] args) throws Exception {
+    	Railroad_Cars railroadCar = null;
+        Scanner scanner = new Scanner(new File("cars.txt"));
+        PrintWriter writer = new PrintWriter("volumes.txt");
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine().trim();
+
+            if (line.isEmpty()) continue;
+
+            String[] data = line.split(" ");
+            String carType = data[0];
+
+            if (carType.equals("Tank")) {
+                double length = Double.parseDouble(data[1]);
+                double radius = Double.parseDouble(data[2]);
+                railroadCar = new TankCar(length, radius);
+            } else if (carType.equals("Box")) {
+                double length = Double.parseDouble(data[1]);
+                double width = Double.parseDouble(data[2]);
+                double height = Double.parseDouble(data[3]);
+                railroadCar = new BoxCar(length, width, height);
+            } else if (carType.equals("Refrigerator")) {
+                double length = Double.parseDouble(data[1]);
+                double width = Double.parseDouble(data[2]);
+                double height = Double.parseDouble(data[3]);
+                int temperature = Integer.parseInt(data[4]);
+                railroadCar = new RefrigeratorCar(length, width, height, temperature);
+            }
+
+            if (railroadCar != null) {
+                double volume = railroadCar.volume();
+                writer.printf("%.2f%n", volume);
+            }
+        }
+
+        scanner.close();
+        writer.close();
+    }
+}
